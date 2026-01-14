@@ -1,0 +1,39 @@
+.hero {
+  display: flex;
+  justify-content: space-between;
+  padding: 80px;
+  background: linear-gradient(#f4f8ff,#fff);
+}
+
+.hero-text h1 {
+  font-size: 48px;
+  color: #1f3c88;
+}
+
+.hero-text button {
+  background: #2d6cff;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 25px;
+}
+
+.features {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 60px 0;
+}
+
+.features div {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  width: 200px;
+  text-align: center;
+}
+
+.how {
+  text-align: center;
+  padding-bottom: 80px;
+}
