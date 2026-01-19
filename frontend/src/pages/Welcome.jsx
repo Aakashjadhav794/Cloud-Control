@@ -37,12 +37,12 @@ export default function Welcome() {
           <img src={gcp} className="w-7 h-7" />
           Connect GCP
         </button>
-<div
-  onClick={() => navigate("/dashboard")}
-  className="text-sm text-gray-600 mt-6 cursor-pointer hover:text-blue-600"
->
-  You can add more later
-</div>
+        <div
+          onClick={() => navigate("/dashboard")}
+          className="text-sm text-gray-600 mt-6 cursor-pointer hover:text-blue-600"
+        >
+          You can add more later
+        </div>
 
       </div>
     </div>

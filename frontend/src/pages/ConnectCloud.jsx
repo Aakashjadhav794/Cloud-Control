@@ -12,10 +12,9 @@ export default function ConnectCloud() {
   const [gcpFile, setGcpFile] = useState(null)
 
   const tabStyle = (name) =>
-    `flex items-center gap-2 pb-2 cursor-pointer ${
-      tab === name
-        ? "font-semibold text-blue-600 border-b-2 border-blue-600"
-        : "text-gray-400"
+    `flex items-center gap-2 pb-2 cursor-pointer ${tab === name
+      ? "font-semibold text-blue-600 border-b-2 border-blue-600"
+      : "text-gray-400"
     }`
 
   const inputClass =

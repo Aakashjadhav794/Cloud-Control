@@ -61,9 +61,8 @@ export default function Navbar() {
 
       {/* Slide menu */}
       <div
-        className={`fixed top-0 right-0 h-full w-64 bg-white z-50 shadow-xl transform transition-transform duration-300 ${
-          open ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 h-full w-64 bg-white z-50 shadow-xl transform transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <div className="p-6 space-y-6 text-gray-700">
           <div className="flex justify-between items-center">

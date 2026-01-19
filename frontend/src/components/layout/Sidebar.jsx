@@ -8,10 +8,9 @@ import logout_icon from "../../assets/icons/logout.png"
 import alert_icon from "../../assets/icons/alert.png"
 
 const linkClass = ({ isActive }) =>
-  `flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition ${
-    isActive
-      ? "bg-blue-600 text-white"
-      : "text-gray-300 hover:text-white hover:bg-white/10"
+  `flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition ${isActive
+    ? "bg-blue-600 text-white"
+    : "text-gray-300 hover:text-white hover:bg-white/10"
   }`
 
 export default function Sidebar({ open, onClose }) {

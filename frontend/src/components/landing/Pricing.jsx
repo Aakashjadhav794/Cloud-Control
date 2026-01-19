@@ -66,10 +66,9 @@ export default function Pricing() {
               key={p.name}
               onClick={() => setActive(p.name)}
               className={`cursor-pointer rounded-3xl p-6 md:p-8 bg-white transition-all duration-300
-                ${
-                  isActive
-                    ? "border-2 border-blue-600 shadow-2xl scale-105"
-                    : "border border-gray-200 shadow-lg hover:shadow-2xl hover:scale-105"
+                ${isActive
+                  ? "border-2 border-blue-600 shadow-2xl scale-105"
+                  : "border border-gray-200 shadow-lg hover:shadow-2xl hover:scale-105"
                 }`}
             >
               {/* Header */}
@@ -102,10 +101,9 @@ export default function Pricing() {
               {/* Button */}
               <button
                 className={`w-full mt-6 md:mt-10 py-2.5 md:py-3 rounded-full font-medium transition
-                  ${
-                    isActive
-                      ? "bg-blue-600 text-white"
-                      : "border border-gray-300 text-gray-700 hover:bg-blue-50"
+                  ${isActive
+                    ? "bg-blue-600 text-white"
+                    : "border border-gray-300 text-gray-700 hover:bg-blue-50"
                   }`}
               >
                 {p.button}

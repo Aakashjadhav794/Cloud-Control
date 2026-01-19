@@ -6,14 +6,14 @@ import Pricing from "../components/landing/Pricing"
 import { useNavigate } from "react-router-dom"
 
 export default function Landing() {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
   return (
     <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen">
       <Navbar />
 
       {/* Navbar height offset */}
       <div className="pt-16">
-        
+
         <div id="home">
           <Hero />
         </div>
@@ -36,8 +36,8 @@ export default function Landing() {
             Start managing your cloud in minutes
           </h2>
           <button
-          onClick={() => navigate("/register")}
-          className="bg-white text-blue-600 px-8 py-3 rounded-full font-medium hover:scale-105 transition">
+            onClick={() => navigate("/register")}
+            className="bg-white text-blue-600 px-8 py-3 rounded-full font-medium hover:scale-105 transition">
             Get Started
           </button>
         </div>

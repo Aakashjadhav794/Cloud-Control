@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 export default function Login() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center px-6">
-      
+
       <div className="w-full max-w-sm bg-white p-8 rounded-2xl shadow-xl">
 
         {/* Logo */}
