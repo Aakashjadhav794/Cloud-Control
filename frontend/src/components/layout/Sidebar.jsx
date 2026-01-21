@@ -48,39 +48,39 @@ export default function Sidebar({ open, onClose }) {
 
         {/* Logo */}
         <div className="flex items-center gap-2 text-xl font-semibold mb-10">
-          <img src={cloud_icon} className="w-7" />
+          <img src={cloud_icon} alt="" className="w-7" />
           CloudControl
         </div>
 
         {/* Menu */}
         <div className="space-y-2 text-sm">
           <NavLink to="/dashboard" onClick={onClose} className={linkClass}>
-            <img src={dashboard_icon} className="w-4" />
+            <img src={dashboard_icon} alt="" className="w-4" />
             Dashboard
           </NavLink>
 
           <NavLink to="/vms" onClick={onClose} className={linkClass}>
-            <img src={vm_icon} className="w-4" />
+            <img src={vm_icon} alt="" className="w-4" />
             Virtual Machines
           </NavLink>
 
           <NavLink to="/clouds" onClick={onClose} className={linkClass}>
-            <img src={cloud_icon} className="w-4" />
+            <img src={cloud_icon} alt="" className="w-4" />
             Clouds
           </NavLink>
 
           <NavLink to="/billing" onClick={onClose} className={linkClass}>
-            <img src={cost_icon} className="w-4" />
+            <img src={cost_icon} alt="" className="w-4" />
             Cost & Billing
           </NavLink>
 
           <NavLink to="/alerts" onClick={onClose} className={linkClass}>
-            <img src={alert_icon} className="w-4" />
+            <img src={alert_icon} alt="" className="w-4" />
             Alerts
           </NavLink>
 
           <NavLink to="/settings" onClick={onClose} className={linkClass}>
-            <img src={setting_icon} className="w-4" />
+            <img src={setting_icon} alt="" className="w-4" />
             Settings
           </NavLink>
         </div>
@@ -90,7 +90,7 @@ export default function Sidebar({ open, onClose }) {
           onClick={logout}
           className="mt-auto flex items-center gap-3 px-4 py-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg cursor-pointer"
         >
-          <img src={logout_icon} className="w-4" />
+          <img src={logout_icon} alt="" className="w-4" />
           Logout
         </div>
       </div>

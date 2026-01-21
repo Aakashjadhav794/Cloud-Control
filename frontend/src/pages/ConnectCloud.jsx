@@ -27,13 +27,13 @@ export default function ConnectCloud() {
         {/* Tabs */}
         <div className="flex gap-6 mb-8 border-b pb-3">
           <div onClick={() => setTab("aws")} className={tabStyle("aws")}>
-            <img src={aws} alt="" className="w-6" /> AWS
+            <img src={aws} alt="AWS logo" className="w-6" /> AWS
           </div>
           <div onClick={() => setTab("azure")} className={tabStyle("azure")}>
-            <img src={azure} alt="" className="w-6" /> Azure
+            <img src={azure} alt="Azure logo" className="w-6" /> Azure
           </div>
-          <div onClick={() => setTab("gcp")} className={tabStyle("gcp")}>
-            <img src={gcp} alt="" className="w-6" /> GCP
+          <div onClick={() => setTab("gcp")}  className={tabStyle("gcp")}>
+            <img src={gcp} alt="GCP logo" className="w-6" /> GCP
           </div>
         </div>
 

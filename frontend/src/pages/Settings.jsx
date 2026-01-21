@@ -1,13 +1,12 @@
 import { useState, useRef, useEffect } from "react"
 import Sidebar from "../components/layout/Sidebar"
-import { Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 export default function Settings() {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [editProfile, setEditProfile] = useState(false)
   const [changePass, setChangePass] = useState(false)
-  const [roleEdit, setRoleEdit] = useState(null)
   const [inviteOpen, setInviteOpen] = useState(false)
   const [editUser, setEditUser] = useState(null)
   const [profileOpen, setProfileOpen] = useState(false)
@@ -25,29 +24,29 @@ const [profileForm, setProfileForm] = useState({
   email: user?.email || "",
 })
 
-const handleProfileSave = async () => {
-  const token = localStorage.getItem("token")
+// const handleProfileSave = async () => {
+//   const token = localStorage.getItem("token")
 
-  const res = await fetch("http://localhost:5000/auth/profile", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(profileForm),
-  })
+//   const res = await fetch("http://localhost:5000/auth/profile", {
+//     method: "PUT",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${token}`,
+//     },
+//     body: JSON.stringify(profileForm),
+//   })
 
-  const data = await res.json()
+//   const data = await res.json()
 
-  if (!res.ok) {
-    alert(data.message || "Update failed")
-    return
-  }
+//   if (!res.ok) {
+//     alert(data.message || "Update failed")
+//     return
+//   }
 
-  localStorage.setItem("user", JSON.stringify(data.user))
-  setEditProfile(false)
-  window.location.reload()
-}
+//   localStorage.setItem("user", JSON.stringify(data.user))
+//   setEditProfile(false)
+//   window.location.reload()
+// }
 
 const handlePasswordUpdate = async () => {
   if (passwordForm.newPass !== passwordForm.confirm) {
