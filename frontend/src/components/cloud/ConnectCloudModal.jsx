@@ -26,14 +26,11 @@ export default function ConnectCloudModal({ onClose }) {
       {/* Tabs */}
       <div className="flex gap-6 mb-8 border-b pb-3">
         <div onClick={() => setTab("aws")} className={tabStyle("aws")}>
-          <img src={aws} className="w-6" /> AWS
-        </div>
+<img src={aws} alt="AWS logo" className="w-6" />        </div>
         <div onClick={() => setTab("azure")} className={tabStyle("azure")}>
-          <img src={azure} className="w-6" /> Azure
-        </div>
+<img src={azure} alt="Azure logo" className="w-6" />        </div>
         <div onClick={() => setTab("gcp")} className={tabStyle("gcp")}>
-          <img src={gcp} className="w-6" /> GCP
-        </div>
+<img src={gcp} alt="GCP logo" className="w-6" />        </div>
       </div>
 
       <h3 className="text-gray-800 font-medium mb-4 capitalize">
