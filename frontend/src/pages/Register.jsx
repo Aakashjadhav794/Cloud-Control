@@ -121,7 +121,7 @@ export default function Register() {
     onClick={() => setShowPassword(!showPassword)}
     className="absolute right-3 top-9 w-5 h-5 cursor-pointer"
   >
-    <img src={eyeIcon} className="w-5 h-5 opacity-70" />
+    <img src={eyeIcon} alt="" className="w-5 h-5 opacity-70" />
 
     {/* Slash when hidden */}
     {!showPassword && (
@@ -149,7 +149,7 @@ export default function Register() {
     onClick={() => setShowConfirm(!showConfirm)}
     className="absolute right-3 top-9 w-5 h-5 cursor-pointer"
   >
-    <img src={eyeIcon} className="w-5 h-5 opacity-70" />
+    <img src={eyeIcon} alt="" className="w-5 h-5 opacity-70" />
 
     {/* Slash when hidden */}
     {!showConfirm && (

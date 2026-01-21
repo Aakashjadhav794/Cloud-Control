@@ -244,7 +244,7 @@ export default function Vms() {
                 {vms.map(vm => (
                   <tr key={vm.id} className="border-t hover:bg-gray-50">
                     <td className="px-6 py-3">
-                      <img src={getIcon(vm.cloud)} className="w-6" />
+                      <img src={getIcon(vm.cloud)} alt="" className="w-6" />
                     </td>
 
                     <td
@@ -294,7 +294,7 @@ export default function Vms() {
               >
                 <div className="flex justify-between items-center mb-3">
                   <div className="flex items-center gap-3">
-                    <img src={getIcon(vm.cloud)} className="w-6" />
+                    <img src={getIcon(vm.cloud)} alt="" className="w-6" />
                     <div>
                       <p className="font-semibold text-blue-600">{vm.name}</p>
                       <p className="text-xs text-gray-500">{vm.region}</p>

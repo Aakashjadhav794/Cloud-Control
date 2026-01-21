@@ -39,7 +39,7 @@ export default function Hero() {
         {/* Right */}
         <div className="relative flex justify-center md:justify-end">
           <img
-            src={heroImg}
+            src={heroImg} 
             alt="Cloud dashboard"
             className="w-full max-w-sm md:max-w-[540px] rounded-2xl shadow-2xl"
           />

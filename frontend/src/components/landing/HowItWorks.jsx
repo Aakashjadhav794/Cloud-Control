@@ -33,7 +33,7 @@ export default function HowItWorks() {
           <div key={s.title} className="max-w-xs">
 
             <div className="w-24 h-24 md:w-28 md:h-28 mx-auto mb-6 bg-blue-50 rounded-full flex items-center justify-center">
-              <img src={s.icon} className="w-12 md:w-14 object-contain" />
+              <img src={s.icon} alt="" className="w-12 md:w-14 object-contain" />
             </div>
 
             <h3 className="font-semibold text-gray-900 mb-2">

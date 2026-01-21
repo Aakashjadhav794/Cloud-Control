@@ -52,7 +52,7 @@ function CustomTooltip({ active, payload, label }) {
       <div className="font-semibold mb-2">{label}</div>
       {payload.map((p) => (
         <div key={p.dataKey} className="flex items-center gap-2 mb-1">
-          <img src={icons[p.dataKey]} className="w-4 h-4" />
+          <img src={icons[p.dataKey]} alt="" className="w-4 h-4" />
           <span className="capitalize">{p.dataKey}</span>
           <span className="ml-auto font-medium">${p.value}</span>
         </div>
@@ -313,13 +313,13 @@ export default function Billing() {
 
               <div className="flex justify-center gap-6 mt-4 text-sm text-gray-500">
                 <div className="flex items-center gap-2">
-                  <img src={awsIcon} className="w-4" /> AWS
+                  <img src={awsIcon} alt="" className="w-4" /> AWS
                 </div>
                 <div className="flex items-center gap-2">
-                  <img src={azureIcon} className="w-4" /> Azure
+                  <img src={azureIcon} alt="" className="w-4" /> Azure
                 </div>
                 <div className="flex items-center gap-2">
-                  <img src={gcpIcon} className="w-4" /> GCP
+                  <img src={gcpIcon} alt="" className="w-4" /> GCP
                 </div>
               </div>
             </div>
@@ -342,7 +342,7 @@ export default function Billing() {
           {/* ===== CLOUD COST CARDS ===== */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-white p-6 rounded-2xl shadow flex items-center gap-4">
-              <img src={awsIcon} className="w-10" />
+              <img src={awsIcon} alt="" className="w-10" />
               <div>
                 <h4 className="text-sm text-gray-500">AWS cost</h4>
                 <div className="text-2xl font-semibold">$540.20</div>
@@ -351,7 +351,7 @@ export default function Billing() {
             </div>
 
             <div className="bg-white p-6 rounded-2xl shadow flex items-center gap-4">
-              <img src={azureIcon} className="w-10" />
+              <img src={azureIcon} alt="" className="w-10" />
               <div>
                 <h4 className="text-sm text-gray-500">Azure cost</h4>
                 <div className="text-2xl font-semibold">$320.10</div>
@@ -360,7 +360,7 @@ export default function Billing() {
             </div>
 
             <div className="bg-white p-6 rounded-2xl shadow flex items-center gap-4">
-              <img src={gcpIcon} className="w-10" />
+              <img src={gcpIcon} alt="" className="w-10" />
               <div>
                 <h4 className="text-sm text-gray-500">GCP cost</h4>
                 <div className="text-2xl font-semibold">$385.20</div>
@@ -386,7 +386,7 @@ export default function Billing() {
                   <tr>
                     <td className="py-3">AWS Source Service</td>
                     <td className="py-3 flex items-center gap-2">
-                      <img src={awsIcon} className="w-4" /> AWS
+                      <img src={awsIcon} alt="" className="w-4" /> AWS
                     </td>
                     <td className="py-3">Compute usage</td>
                     <td className="py-3 text-right">$1,245.50</td>
@@ -396,7 +396,7 @@ export default function Billing() {
                   <tr>
                     <td className="py-3">Azure Cloud Service</td>
                     <td className="py-3 flex items-center gap-2">
-                      <img src={azureIcon} className="w-4" /> Azure
+                      <img src={azureIcon} alt="" className="w-4" /> Azure
                     </td>
                     <td className="py-3">Azure usage</td>
                     <td className="py-3 text-right">$1,360.00</td>
@@ -406,7 +406,7 @@ export default function Billing() {
                   <tr>
                     <td className="py-3">GCP Infra Service</td>
                     <td className="py-3 flex items-center gap-2">
-                      <img src={gcpIcon} className="w-4" /> GCP
+                      <img src={gcpIcon} alt="" className="w-4" /> GCP
                     </td>
                     <td className="py-3">Storage & Compute</td>
                     <td className="py-3 text-right">$323.50</td>

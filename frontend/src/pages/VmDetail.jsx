@@ -120,7 +120,7 @@ export default function VmDetail() {
           </button>
           {/* Header Card */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 bg-white p-6 rounded-2xl shadow">
-            <img src={getIcon()} className="w-10" />
+            <img src={getIcon()} alt="" className="w-10" />
             <div>
               <h2 className="text-xl font-semibold">{vm.name}</h2>
               <p className="text-sm text-gray-500">{vm.region} • {vm.type}</p>

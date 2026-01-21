@@ -18,7 +18,7 @@ export default function Welcome() {
           onClick={() => navigate("/connect/aws")}
           className="w-full flex items-center justify-center gap-3 bg-blue-500 text-white py-3 rounded-full hover:bg-blue-700 transition mb-4"
         >
-          <img src={aws} className="w-7 h-7" />
+          <img src={aws} alt="" className="w-7 h-7" />
           Connect AWS
         </button>
 
@@ -26,7 +26,7 @@ export default function Welcome() {
           onClick={() => navigate("/connect/azure")}
           className="w-full flex items-center justify-center gap-3 bg-blue-500 text-white py-3 rounded-full hover:bg-blue-700 transition mb-4"
         >
-          <img src={azure} className="w-7 h-7" />
+          <img src={azure} alt="" className="w-7 h-7" />
           Connect Azure
         </button>
 
@@ -34,7 +34,7 @@ export default function Welcome() {
           onClick={() => navigate("/connect/gcp")}
           className="w-full flex items-center justify-center gap-3 bg-blue-500 text-white py-3 rounded-full hover:bg-blue-700 transition"
         >
-          <img src={gcp} className="w-7 h-7" />
+          <img src={gcp} alt="" className="w-7 h-7" />
           Connect GCP
         </button>
         <div

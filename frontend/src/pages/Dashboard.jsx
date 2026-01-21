@@ -259,7 +259,7 @@ export default function Dashboard() {
                   className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 shadow-md"
                 >
                   <div className="flex items-center gap-3 mb-4">
-                    <img src={c.icon} className="w-8" />
+                    <img src={c.icon} alt="" className="w-8" />
                     <h3 className="font-semibold text-gray-900">{c.name}</h3>
                   </div>
 

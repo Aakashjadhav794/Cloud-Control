@@ -46,7 +46,7 @@ export default function Features() {
             className="w-full max-w-xs bg-white/70 backdrop-blur-xl p-8 rounded-3xl shadow-xl hover:shadow-2xl transition text-center"
           >
             <div className="w-14 h-14 mx-auto flex items-center justify-center bg-blue-100 rounded-2xl mb-5">
-              <img src={f.icon} className="w-7 h-7 object-contain" />
+              <img src={f.icon} alt="" className="w-7 h-7 object-contain" />
             </div>
 
             <h3 className="font-semibold text-gray-900 mb-2">{f.title}</h3>

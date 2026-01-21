@@ -232,7 +232,7 @@ export default function Clouds() {
             {clouds.map((cloud) => (
               <div key={cloud.name} className="bg-white rounded-2xl shadow p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <img src={cloud.icon} className="w-8" />
+                  <img src={cloud.icon} alt="" className="w-8" />
                   <h3 className="font-semibold">{cloud.name}</h3>
                 </div>
 
@@ -299,7 +299,7 @@ export default function Clouds() {
               </button>
 
               <div className="flex items-center gap-3 mb-6">
-                <img src={manageCloud.icon} className="w-8" />
+                <img src={manageCloud.icon} alt="" className="w-8" />
                 <h2 className="text-xl font-semibold">{manageCloud.name}</h2>
               </div>
 
