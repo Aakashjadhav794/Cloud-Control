@@ -17,6 +17,13 @@ export default function Dashboard() {
   const [profileOpen, setProfileOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
+  const user = JSON.parse(localStorage.getItem("user"))
+
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
+    navigate("/login")
+  }
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -197,9 +204,10 @@ export default function Dashboard() {
                 <div className="relative" ref={menuRef}>
                   <div
                     onClick={() => setOpen(!open)}
-                    className="w-8 h-8 rounded-full bg-gray-300 cursor-pointer"
-                  />
-
+                    className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold cursor-pointer select-none"
+                  >
+                    {user?.firstName?.charAt(0).toUpperCase()}
+                  </div>
                   {open && (
                     <div className="absolute right-0 mt-2 w-40 bg-white border rounded-xl shadow-lg text-sm overflow-hidden z-50">
                       <div
@@ -221,9 +229,13 @@ export default function Dashboard() {
                       >
                         Settings
                       </div>
-                      <div className="px-4 py-2 hover:bg-red-50 text-red-600 cursor-pointer">
+                      <div
+                        onClick={handleLogout}
+                        className="px-4 py-2 hover:bg-red-50 text-red-600 cursor-pointer"
+                      >
                         Logout
                       </div>
+
                     </div>
                   )}
                 </div>
@@ -310,9 +322,10 @@ export default function Dashboard() {
               <div>Recent activity – 14 minutes ago</div>
             </div>
           </div>
+          {/* Profile Modal */}
           {profileOpen && (
             <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-              <div className="bg-white w-[90%] max-w-[420px] rounded-2xl p-6 shadow-xl p-6 relative">
+              <div className="bg-white w-[90%] max-w-[420px] rounded-2xl p-6 shadow-xl relative">
 
                 <button
                   onClick={() => setProfileOpen(false)}
@@ -320,34 +333,45 @@ export default function Dashboard() {
                 >
                   ✕
                 </button>
+
                 <h2 className="text-lg font-semibold mb-4">Your profile</h2>
 
                 <div className="space-y-5">
 
                   <div className="flex items-center gap-4">
                     <div className="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center text-white text-xl font-semibold">
-                      A
+                      {user?.name?.charAt(0).toUpperCase() || "U"}
                     </div>
                     <div>
-                      <div className="font-semibold text-gray-900">Aakash Choudhary</div>
-                      <div className="text-sm text-gray-500">aakash@cloudcontrol.io</div>
+                      <div className="font-semibold text-gray-900">
+                        {user?.name || "User"}
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        {user?.email || "email@example.com"}
+                      </div>
                     </div>
                   </div>
 
                   <div className="border-t pt-4 space-y-3 text-sm">
                     <div className="flex justify-between">
                       <span className="text-gray-500">Role</span>
-                      <span className="font-medium text-gray-900">Admin</span>
+                      <span className="font-medium text-gray-900">
+                        {user?.role || "Member"}
+                      </span>
                     </div>
 
                     <div className="flex justify-between">
                       <span className="text-gray-500">Organization</span>
-                      <span className="font-medium text-gray-900">CloudControl</span>
+                      <span className="font-medium text-gray-900">
+                        CloudControl
+                      </span>
                     </div>
 
                     <div className="flex justify-between">
                       <span className="text-gray-500">Member since</span>
-                      <span className="font-medium text-gray-900">Jan 2025</span>
+                      <span className="font-medium text-gray-900">
+                        Jan 2025
+                      </span>
                     </div>
                   </div>
 
@@ -361,8 +385,6 @@ export default function Dashboard() {
                   </div>
 
                 </div>
-
-
               </div>
             </div>
           )}

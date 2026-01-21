@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from "react"
 import Sidebar from "../components/layout/Sidebar"
+import { Navigate, useNavigate } from "react-router-dom"
 
 export default function Settings() {
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [editProfile, setEditProfile] = useState(false)
   const [changePass, setChangePass] = useState(false)
@@ -10,6 +12,78 @@ export default function Settings() {
   const [editUser, setEditUser] = useState(null)
   const [profileOpen, setProfileOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const user = JSON.parse(localStorage.getItem("user"))
+const [passwordForm, setPasswordForm] = useState({
+  current: "",
+  newPass: "",
+  confirm: "",
+})
+
+const [profileForm, setProfileForm] = useState({
+  firstName: user?.firstName || "",
+  lastName: user?.lastName || "",
+  email: user?.email || "",
+})
+
+const handleProfileSave = async () => {
+  const token = localStorage.getItem("token")
+
+  const res = await fetch("http://localhost:5000/auth/profile", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(profileForm),
+  })
+
+  const data = await res.json()
+
+  if (!res.ok) {
+    alert(data.message || "Update failed")
+    return
+  }
+
+  localStorage.setItem("user", JSON.stringify(data.user))
+  setEditProfile(false)
+  window.location.reload()
+}
+
+const handlePasswordUpdate = async () => {
+  if (passwordForm.newPass !== passwordForm.confirm) {
+    return alert("Passwords do not match")
+  }
+
+  const token = localStorage.getItem("token")
+
+  const res = await fetch("http://localhost:5000/auth/change-password", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      currentPassword: passwordForm.current,
+      newPassword: passwordForm.newPass,
+    }),
+  })
+
+  const data = await res.json()
+
+  if (!res.ok) {
+    return alert(data.message)
+  }
+
+  alert("Password updated successfully")
+  setChangePass(false)
+}
+
+const handleLogout = () => {
+  localStorage.removeItem("token")
+  localStorage.removeItem("user")
+  navigate("/login")
+}
+
 
   const menuRef = useRef()
 
@@ -58,7 +132,12 @@ export default function Settings() {
               <h1 className="text-2xl font-semibold">Settings</h1>
             </div>
             <div className="relative" ref={menuRef}>
-              <div onClick={() => setOpen(!open)} className="w-8 h-8 rounded-full bg-gray-300 cursor-pointer" />
+              <div
+                onClick={() => setOpen(!open)}
+                className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold cursor-pointer select-none"
+              >
+{user?.firstName?.charAt(0).toUpperCase()}
+              </div>
               {open && (
                 <div className="absolute right-0 mt-2 w-40 bg-white border rounded-xl shadow-lg text-sm">
                   <div
@@ -70,7 +149,12 @@ export default function Settings() {
                   >
                     Profile
                   </div>
-                  <div className="px-4 py-2 hover:bg-red-50 text-red-600 cursor-pointer">Logout</div>
+                  <div
+                    onClick={handleLogout}
+                    className="px-4 py-2 hover:bg-red-50 text-red-600 cursor-pointer"
+                  >
+                    Logout
+                  </div>
                 </div>
               )}
             </div>
@@ -92,15 +176,37 @@ export default function Settings() {
 
               {!editProfile ? (
                 <div className="space-y-3 text-sm text-gray-600">
-                  <div><b>Name:</b> Aakash Jadhav</div>
-                  <div><b>Email:</b> aakash@cloudcontrol.com</div>
-                  <div><b>Role:</b> Admin</div>
+                  <div><b>Name:</b> {user?.firstName} {user?.lastName}</div>
+                  <div><b>Email:</b> {user?.email}</div>
+                  <div><b>Role:</b> {user?.role}</div>
+
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <input className={inputClass} defaultValue="Aakash" />
-                  <input className={inputClass} defaultValue="Jadhav" />
-                  <input className={inputClass} defaultValue="aakash@cloudcontrol.com" />
+<input
+  className={inputClass}
+  value={profileForm.firstName}
+  onChange={(e) =>
+    setProfileForm({ ...profileForm, firstName: e.target.value })
+  }
+/>
+
+<input
+  className={inputClass}
+  value={profileForm.lastName}
+  onChange={(e) =>
+    setProfileForm({ ...profileForm, lastName: e.target.value })
+  }
+/>
+
+<input
+  className={inputClass}
+  value={profileForm.email}
+  onChange={(e) =>
+    setProfileForm({ ...profileForm, email: e.target.value })
+  }
+/>
+
 
                   <div className="flex gap-4">
                     <button className="bg-blue-600 text-white px-6 py-2 rounded-full">Save</button>
@@ -125,11 +231,40 @@ export default function Settings() {
                 <p className="text-sm text-gray-600">Password last changed 14 days ago</p>
               ) : (
                 <div className="space-y-4">
-                  <input type="password" placeholder="Current password" className={inputClass} />
-                  <input type="password" placeholder="New password" className={inputClass} />
-                  <input type="password" placeholder="Confirm password" className={inputClass} />
+<input
+  type="password"
+  placeholder="Current password"
+  className={inputClass}
+  onChange={(e) =>
+    setPasswordForm({ ...passwordForm, current: e.target.value })
+  }
+/>
+
+<input
+  type="password"
+  placeholder="New password"
+  className={inputClass}
+  onChange={(e) =>
+    setPasswordForm({ ...passwordForm, newPass: e.target.value })
+  }
+/>
+
+<input
+  type="password"
+  placeholder="Confirm password"
+  className={inputClass}
+  onChange={(e) =>
+    setPasswordForm({ ...passwordForm, confirm: e.target.value })
+  }
+/>
+
                   <div className="flex gap-4">
-                    <button className="bg-blue-600 text-white px-6 py-2 rounded-full">Update</button>
+<button
+  onClick={handlePasswordUpdate}
+  className="bg-blue-600 text-white px-6 py-2 rounded-full"
+>
+  Update
+</button>
                     <button onClick={() => setChangePass(false)} className="text-gray-500">Cancel</button>
                   </div>
                 </div>
@@ -307,43 +442,56 @@ export default function Settings() {
                 ))}
               </div>
             </div>
+            {/* Profile Modal */}
             {profileOpen && (
               <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-                <div className="bg-white w-[90%] max-w-[420px] rounded-2xl shadow-xl p-6 relative">
+                <div className="bg-white w-[90%] max-w-[420px] rounded-2xl p-6 shadow-xl relative">
+
                   <button
                     onClick={() => setProfileOpen(false)}
                     className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
                   >
                     ✕
                   </button>
+
                   <h2 className="text-lg font-semibold mb-4">Your profile</h2>
 
                   <div className="space-y-5">
 
                     <div className="flex items-center gap-4">
                       <div className="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center text-white text-xl font-semibold">
-                        A
+                        {user?.name?.charAt(0).toUpperCase() || "U"}
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-900">Aakash Choudhary</div>
-                        <div className="text-sm text-gray-500">aakash@cloudcontrol.io</div>
+                        <div className="font-semibold text-gray-900">
+                          {user?.name || "User"}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {user?.email || "email@example.com"}
+                        </div>
                       </div>
                     </div>
 
                     <div className="border-t pt-4 space-y-3 text-sm">
                       <div className="flex justify-between">
                         <span className="text-gray-500">Role</span>
-                        <span className="font-medium text-gray-900">Admin</span>
+                        <span className="font-medium text-gray-900">
+                          {user?.role || "Member"}
+                        </span>
                       </div>
 
                       <div className="flex justify-between">
                         <span className="text-gray-500">Organization</span>
-                        <span className="font-medium text-gray-900">CloudControl</span>
+                        <span className="font-medium text-gray-900">
+                          CloudControl
+                        </span>
                       </div>
 
                       <div className="flex justify-between">
                         <span className="text-gray-500">Member since</span>
-                        <span className="font-medium text-gray-900">Jan 2025</span>
+                        <span className="font-medium text-gray-900">
+                          Jan 2025
+                        </span>
                       </div>
                     </div>
 
@@ -355,6 +503,7 @@ export default function Settings() {
                         Close
                       </button>
                     </div>
+
                   </div>
                 </div>
               </div>

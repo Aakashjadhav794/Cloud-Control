@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+
 import Landing from "../pages/Landing"
 import Login from "../pages/Login"
 import Register from "../pages/Register"
@@ -12,22 +13,101 @@ import Alerts from "../pages/Alerts"
 import VmDetail from "../pages/VmDetail"
 import Settings from "../pages/Settings"
 
+import ProtectedRoute from "./ProtectedRoute"
+
 export default function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
+
+        {/* Public routes */}
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/welcome" element={<Welcome />} />
-        <Route path="/connect/:provider" element={<ConnectCloud />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/vms" element={<Vms />} />
-        <Route path="/clouds" element={<Clouds />} />
-        <Route path="/billing" element={<Billing />} />
-        <Route path="/alerts" element={<Alerts />} />
-        <Route path="/vm/:id" element={<VmDetail />} />
-        <Route path="/settings" element={<Settings />} />
+
+        {/* Protected routes */}
+        <Route
+          path="/welcome"
+          element={
+            <ProtectedRoute>
+              <Welcome />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/clouds"
+          element={
+            <ProtectedRoute>
+              <Clouds />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/vms"
+          element={
+            <ProtectedRoute>
+              <Vms />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/vm/:id"
+          element={
+            <ProtectedRoute>
+              <VmDetail />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/billing"
+          element={
+            <ProtectedRoute>
+              <Billing />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/alerts"
+          element={
+            <ProtectedRoute>
+              <Alerts />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Optional */}
+        <Route
+          path="/connect/:provider"
+          element={
+            <ProtectedRoute>
+              <ConnectCloud />
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
     </BrowserRouter>
   )

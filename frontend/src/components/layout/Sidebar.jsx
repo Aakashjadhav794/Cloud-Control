@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import cloud_icon from "../../assets/icons/cloud 2.png"
 import dashboard_icon from "../../assets/icons/dashboard.png"
 import vm_icon from "../../assets/icons/vm.png"
@@ -8,12 +8,21 @@ import logout_icon from "../../assets/icons/logout.png"
 import alert_icon from "../../assets/icons/alert.png"
 
 const linkClass = ({ isActive }) =>
-  `flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition ${isActive
-    ? "bg-blue-600 text-white"
-    : "text-gray-300 hover:text-white hover:bg-white/10"
+  `flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition ${
+    isActive
+      ? "bg-blue-600 text-white"
+      : "text-gray-300 hover:text-white hover:bg-white/10"
   }`
 
 export default function Sidebar({ open, onClose }) {
+  const navigate = useNavigate()
+
+  const logout = () => {
+    localStorage.removeItem("token")
+    onClose?.()
+    navigate("/login")
+  }
+
   return (
     <>
       {/* Mobile overlay */}
@@ -45,39 +54,42 @@ export default function Sidebar({ open, onClose }) {
 
         {/* Menu */}
         <div className="space-y-2 text-sm">
-          <NavLink to="/dashboard" className={linkClass}>
+          <NavLink to="/dashboard" onClick={onClose} className={linkClass}>
             <img src={dashboard_icon} className="w-4" />
             Dashboard
           </NavLink>
 
-          <NavLink to="/vms" className={linkClass}>
+          <NavLink to="/vms" onClick={onClose} className={linkClass}>
             <img src={vm_icon} className="w-4" />
             Virtual Machines
           </NavLink>
 
-          <NavLink to="/clouds" className={linkClass}>
+          <NavLink to="/clouds" onClick={onClose} className={linkClass}>
             <img src={cloud_icon} className="w-4" />
             Clouds
           </NavLink>
 
-          <NavLink to="/billing" className={linkClass}>
+          <NavLink to="/billing" onClick={onClose} className={linkClass}>
             <img src={cost_icon} className="w-4" />
             Cost & Billing
           </NavLink>
 
-          <NavLink to="/alerts" className={linkClass}>
+          <NavLink to="/alerts" onClick={onClose} className={linkClass}>
             <img src={alert_icon} className="w-4" />
             Alerts
           </NavLink>
 
-          <NavLink to="/settings" className={linkClass}>
+          <NavLink to="/settings" onClick={onClose} className={linkClass}>
             <img src={setting_icon} className="w-4" />
             Settings
           </NavLink>
         </div>
 
         {/* Logout */}
-        <div className="mt-auto flex items-center gap-3 px-4 py-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg cursor-pointer">
+        <div
+          onClick={logout}
+          className="mt-auto flex items-center gap-3 px-4 py-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg cursor-pointer"
+        >
           <img src={logout_icon} className="w-4" />
           Logout
         </div>
