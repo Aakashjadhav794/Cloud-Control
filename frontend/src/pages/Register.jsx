@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import eyeIcon from "../assets/icons/eye.svg"
+import API_BASE_URL from "../config/api"
 
 export default function Register() {
   const navigate = useNavigate()
@@ -40,16 +41,17 @@ export default function Register() {
     try {
       setLoading(true)
 
-      const res = await fetch("http://localhost:5000/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName: form.firstName,
-          lastName: form.lastName,
-          email: form.email,
-          password: form.password,
-        }),
-      })
+const res = await fetch(`${API_BASE_URL}/auth/register`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    firstName: form.firstName,
+    lastName: form.lastName,
+    email: form.email,
+    password: form.password,
+  }),
+})
+
 
       const data = await res.json()
 
