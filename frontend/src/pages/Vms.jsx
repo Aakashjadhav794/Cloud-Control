@@ -4,7 +4,7 @@ import aws from "../assets/icons/aws.png"
 import azure from "../assets/icons/azure.png"
 import gcp from "../assets/icons/gcp.png"
 import { useNavigate } from "react-router-dom"
-
+import { toast } from "react-toastify"
 const vms = [
   { id: 1, cloud: "aws", name: "web-server-01", region: "us-east-1", type: "CPU", status: "Running", cost: "$8.08/hr" },
   { id: 2, cloud: "azure", name: "web-server-01", region: "us-east-1", type: "GPU", status: "Running", cost: "$8.08/hr" },
@@ -21,11 +21,17 @@ export default function Vms() {
   const [profileOpen, setProfileOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const user = JSON.parse(localStorage.getItem("user"))
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
 
   const handleLogout = () => {
     localStorage.removeItem("token")
     localStorage.removeItem("user")
-    navigate("/login")
+
+    toast.success("Logged out successfully")
+
+    setTimeout(() => {
+      navigate("/login")
+    }, 1000)
   }
 
   useEffect(() => {
@@ -210,7 +216,7 @@ export default function Vms() {
                       Settings
                     </div>
                     <div
-                      onClick={handleLogout}
+                      onClick={() => setShowLogoutModal(true)}
                       className="px-4 py-2 hover:bg-red-50 text-red-600 cursor-pointer"
                     >
                       Logout
@@ -402,6 +408,37 @@ export default function Vms() {
           </div>
         )}
       </div>
+      {showLogoutModal && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-sm">
+
+            <h2 className="text-xl font-semibold text-center">
+              Logout
+            </h2>
+
+            <p className="text-gray-500 text-center mt-2">
+              Are you sure you want to logout?
+            </p>
+
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                className="flex-1 py-2 border rounded-xl"
+              >
+                No
+              </button>
+
+              <button
+                onClick={handleLogout}
+                className="flex-1 py-2 bg-red-600 text-white rounded-xl"
+              >
+                Yes
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   )
 }

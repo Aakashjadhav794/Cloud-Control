@@ -6,6 +6,8 @@ import cost_icon from "../../assets/icons/cost.png"
 import setting_icon from "../../assets/icons/setting.png"
 import logout_icon from "../../assets/icons/logout.png"
 import alert_icon from "../../assets/icons/alert.png"
+import access_icon from "../../assets/icons/access.png"
+import { toast } from "react-toastify"
 
 const linkClass = ({ isActive }) =>
   `flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition ${
@@ -17,15 +19,25 @@ const linkClass = ({ isActive }) =>
 export default function Sidebar({ open, onClose }) {
   const navigate = useNavigate()
 
-  const logout = () => {
-    localStorage.removeItem("token")
-    onClose?.()
+  const user = JSON.parse(localStorage.getItem("user"))
+  const role = user?.role
+
+const logout = () => {
+  localStorage.removeItem("token")
+  localStorage.removeItem("user")
+
+  toast.success("Logged out successfully")
+
+  onClose?.()
+
+  setTimeout(() => {
     navigate("/login")
-  }
+  }, 1000)
+}
 
   return (
     <>
-      {/* Mobile overlay */}
+      {/* Mobile Overlay */}
       {open && (
         <div
           onClick={onClose}
@@ -38,7 +50,7 @@ export default function Sidebar({ open, onClose }) {
         transform transition-transform duration-300
         ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       >
-        {/* Close button (mobile) */}
+        {/* Close Button */}
         <button
           onClick={onClose}
           className="md:hidden absolute top-4 right-4 text-gray-400"
@@ -54,35 +66,87 @@ export default function Sidebar({ open, onClose }) {
 
         {/* Menu */}
         <div className="space-y-2 text-sm">
-          <NavLink to="/dashboard" onClick={onClose} className={linkClass}>
+
+          {/* Dashboard - All Users */}
+          <NavLink
+            to="/dashboard"
+            onClick={onClose}
+            className={linkClass}
+          >
             <img src={dashboard_icon} alt="" className="w-4" />
             Dashboard
           </NavLink>
 
-          <NavLink to="/vms" onClick={onClose} className={linkClass}>
-            <img src={vm_icon} alt="" className="w-4" />
-            Virtual Machines
-          </NavLink>
+          {/* Virtual Machines - Admin & Developer */}
+          {(role === "Admin" || role === "Developer") && (
+            <NavLink
+              to="/vms"
+              onClick={onClose}
+              className={linkClass}
+            >
+              <img src={vm_icon} alt="" className="w-4" />
+              Virtual Machines
+            </NavLink>
+          )}
 
-          <NavLink to="/clouds" onClick={onClose} className={linkClass}>
-            <img src={cloud_icon} alt="" className="w-4" />
-            Clouds
-          </NavLink>
+          {/* Clouds - Admin & Developer */}
+          {(role === "Admin" || role === "Developer") && (
+            <NavLink
+              to="/clouds"
+              onClick={onClose}
+              className={linkClass}
+            >
+              <img src={cloud_icon} alt="" className="w-4" />
+              Clouds
+            </NavLink>
+          )}
 
-          <NavLink to="/billing" onClick={onClose} className={linkClass}>
-            <img src={cost_icon} alt="" className="w-4" />
-            Cost & Billing
-          </NavLink>
+          {/* Billing - Admin & Viewer */}
+          {(role === "Admin" || role === "Viewer") && (
+            <NavLink
+              to="/billing"
+              onClick={onClose}
+              className={linkClass}
+            >
+              <img src={cost_icon} alt="" className="w-4" />
+              Cost & Billing
+            </NavLink>
+          )}
 
-          <NavLink to="/alerts" onClick={onClose} className={linkClass}>
+          {/* Access Management - Admin Only */}
+          {role === "Admin" && (
+            <NavLink
+              to="/accessmanagement"
+              onClick={onClose}
+              className={linkClass}
+            >
+              <img src={access_icon} alt="" className="w-4" />
+              Access Management
+            </NavLink>
+          )}
+
+          {/* Alerts - All Users */}
+          <NavLink
+            to="/alerts"
+            onClick={onClose}
+            className={linkClass}
+          >
             <img src={alert_icon} alt="" className="w-4" />
             Alerts
           </NavLink>
 
-          <NavLink to="/settings" onClick={onClose} className={linkClass}>
-            <img src={setting_icon} alt="" className="w-4" />
-            Settings
-          </NavLink>
+          {/* Settings - Admin Only */}
+          {role === "Admin" && (
+            <NavLink
+              to="/settings"
+              onClick={onClose}
+              className={linkClass}
+            >
+              <img src={setting_icon} alt="" className="w-4" />
+              Settings
+            </NavLink>
+          )}
+
         </div>
 
         {/* Logout */}

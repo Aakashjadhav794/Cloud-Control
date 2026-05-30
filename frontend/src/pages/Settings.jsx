@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react"
 import Sidebar from "../components/layout/Sidebar"
 import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 
 export default function Settings() {
   const navigate = useNavigate()
@@ -10,78 +11,115 @@ export default function Settings() {
   const [inviteOpen, setInviteOpen] = useState(false)
   const [editUser, setEditUser] = useState(null)
   const [profileOpen, setProfileOpen] = useState(false)
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const user = JSON.parse(localStorage.getItem("user"))
-const [passwordForm, setPasswordForm] = useState({
-  current: "",
-  newPass: "",
-  confirm: "",
-})
-
-const [profileForm, setProfileForm] = useState({
-  firstName: user?.firstName || "",
-  lastName: user?.lastName || "",
-  email: user?.email || "",
-})
-
-// const handleProfileSave = async () => {
-//   const token = localStorage.getItem("token")
-
-//   const res = await fetch("http://localhost:5000/auth/profile", {
-//     method: "PUT",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${token}`,
-//     },
-//     body: JSON.stringify(profileForm),
-//   })
-
-//   const data = await res.json()
-
-//   if (!res.ok) {
-//     alert(data.message || "Update failed")
-//     return
-//   }
-
-//   localStorage.setItem("user", JSON.stringify(data.user))
-//   setEditProfile(false)
-//   window.location.reload()
-// }
-
-const handlePasswordUpdate = async () => {
-  if (passwordForm.newPass !== passwordForm.confirm) {
-    return alert("Passwords do not match")
-  }
-
-  const token = localStorage.getItem("token")
-
-  const res = await fetch("http://localhost:5000/auth/change-password", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({
-      currentPassword: passwordForm.current,
-      newPassword: passwordForm.newPass,
-    }),
+  const [team, setTeam] = useState([])
+  const [passwordForm, setPasswordForm] = useState({
+    current: "",
+    newPass: "",
+    confirm: "",
   })
 
-  const data = await res.json()
+  const [profileForm, setProfileForm] = useState({
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    email: user?.email || "",
+  })
 
-  if (!res.ok) {
-    return alert(data.message)
+  // const handleProfileSave = async () => {
+  //   const token = localStorage.getItem("token")
+
+  //   const res = await fetch("http://localhost:5000/auth/profile", {
+  //     method: "PUT",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //     body: JSON.stringify(profileForm),
+  //   })
+
+  //   const data = await res.json()
+
+  //   if (!res.ok) {
+  //     alert(data.message || "Update failed")
+  //     return
+  //   }
+
+  //   localStorage.setItem("user", JSON.stringify(data.user))
+  //   setEditProfile(false)
+  //   window.location.reload()
+  // }
+
+  const handlePasswordUpdate = async () => {
+    if (passwordForm.newPass !== passwordForm.confirm) {
+      return alert("Passwords do not match")
+    }
+
+    const token = localStorage.getItem("token")
+
+    const res = await fetch("http://localhost:5000/auth/change-password", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        currentPassword: passwordForm.current,
+        newPassword: passwordForm.newPass,
+      }),
+    })
+
+    const data = await res.json()
+
+    if (!res.ok) {
+      return alert(data.message)
+    }
+
+    alert("Password updated successfully")
+    setChangePass(false)
+  }
+  const fetchTeamUsers = async () => {
+    try {
+      const token = localStorage.getItem("token")
+
+      const res = await fetch(
+        "http://localhost:5000/users",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+
+      const data = await res.json()
+
+      setTeam(
+        data.filter(
+          (u) =>
+            u.role === "Developer" ||
+            u.role === "Viewer"
+        )
+      )
+    } catch (err) {
+      console.log(err)
+    }
   }
 
-  alert("Password updated successfully")
-  setChangePass(false)
-}
+  useEffect(() => {
+    fetchTeamUsers()
+  }, [])
 
-const handleLogout = () => {
-  localStorage.removeItem("token")
-  localStorage.removeItem("user")
-  navigate("/login")
-}
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
+
+    toast.success("Logged out successfully")
+
+    setTimeout(() => {
+      navigate("/login")
+    }, 1000)
+  }
 
 
   const menuRef = useRef()
@@ -97,15 +135,6 @@ const handleLogout = () => {
   const inputClass =
     "w-full mt-1 px-3 py-2 border border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
 
-  const team = [
-    { id: 1, name: "Aakash Choudhary", email: "aakash@cloudcontrol.com", role: "Admin" },
-    { id: 2, name: "Dev Patel", email: "dev@cloudcontrol.com", role: "Developer" },
-    { id: 3, name: "Neha Sharma", email: "neha@cloudcontrol.com", role: "Viewer" },
-  ]
-  const invites = [
-    { id: 1, email: "rahul@company.com", role: "Developer" },
-    { id: 2, email: "meera@company.com", role: "Viewer" },
-  ]
 
   const roles = {
     Admin: ["Full access", "Billing", "Clouds", "Users"],
@@ -135,7 +164,7 @@ const handleLogout = () => {
                 onClick={() => setOpen(!open)}
                 className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold cursor-pointer select-none"
               >
-{user?.firstName?.charAt(0).toUpperCase()}
+                {user?.firstName?.charAt(0).toUpperCase()}
               </div>
               {open && (
                 <div className="absolute right-0 mt-2 w-40 bg-white border rounded-xl shadow-lg text-sm">
@@ -149,7 +178,7 @@ const handleLogout = () => {
                     Profile
                   </div>
                   <div
-                    onClick={handleLogout}
+                    onClick={() => setShowLogoutModal(true)}
                     className="px-4 py-2 hover:bg-red-50 text-red-600 cursor-pointer"
                   >
                     Logout
@@ -182,29 +211,29 @@ const handleLogout = () => {
                 </div>
               ) : (
                 <div className="space-y-4">
-<input
-  className={inputClass}
-  value={profileForm.firstName}
-  onChange={(e) =>
-    setProfileForm({ ...profileForm, firstName: e.target.value })
-  }
-/>
+                  <input
+                    className={inputClass}
+                    value={profileForm.firstName}
+                    onChange={(e) =>
+                      setProfileForm({ ...profileForm, firstName: e.target.value })
+                    }
+                  />
 
-<input
-  className={inputClass}
-  value={profileForm.lastName}
-  onChange={(e) =>
-    setProfileForm({ ...profileForm, lastName: e.target.value })
-  }
-/>
+                  <input
+                    className={inputClass}
+                    value={profileForm.lastName}
+                    onChange={(e) =>
+                      setProfileForm({ ...profileForm, lastName: e.target.value })
+                    }
+                  />
 
-<input
-  className={inputClass}
-  value={profileForm.email}
-  onChange={(e) =>
-    setProfileForm({ ...profileForm, email: e.target.value })
-  }
-/>
+                  <input
+                    className={inputClass}
+                    value={profileForm.email}
+                    onChange={(e) =>
+                      setProfileForm({ ...profileForm, email: e.target.value })
+                    }
+                  />
 
 
                   <div className="flex gap-4">
@@ -230,40 +259,40 @@ const handleLogout = () => {
                 <p className="text-sm text-gray-600">Password last changed 14 days ago</p>
               ) : (
                 <div className="space-y-4">
-<input
-  type="password"
-  placeholder="Current password"
-  className={inputClass}
-  onChange={(e) =>
-    setPasswordForm({ ...passwordForm, current: e.target.value })
-  }
-/>
+                  <input
+                    type="password"
+                    placeholder="Current password"
+                    className={inputClass}
+                    onChange={(e) =>
+                      setPasswordForm({ ...passwordForm, current: e.target.value })
+                    }
+                  />
 
-<input
-  type="password"
-  placeholder="New password"
-  className={inputClass}
-  onChange={(e) =>
-    setPasswordForm({ ...passwordForm, newPass: e.target.value })
-  }
-/>
+                  <input
+                    type="password"
+                    placeholder="New password"
+                    className={inputClass}
+                    onChange={(e) =>
+                      setPasswordForm({ ...passwordForm, newPass: e.target.value })
+                    }
+                  />
 
-<input
-  type="password"
-  placeholder="Confirm password"
-  className={inputClass}
-  onChange={(e) =>
-    setPasswordForm({ ...passwordForm, confirm: e.target.value })
-  }
-/>
+                  <input
+                    type="password"
+                    placeholder="Confirm password"
+                    className={inputClass}
+                    onChange={(e) =>
+                      setPasswordForm({ ...passwordForm, confirm: e.target.value })
+                    }
+                  />
 
                   <div className="flex gap-4">
-<button
-  onClick={handlePasswordUpdate}
-  className="bg-blue-600 text-white px-6 py-2 rounded-full"
->
-  Update
-</button>
+                    <button
+                      onClick={handlePasswordUpdate}
+                      className="bg-blue-600 text-white px-6 py-2 rounded-full"
+                    >
+                      Update
+                    </button>
                     <button onClick={() => setChangePass(false)} className="text-gray-500">Cancel</button>
                   </div>
                 </div>
@@ -298,29 +327,34 @@ const handleLogout = () => {
                     {/* Active Members */}
                     {team.map((u) => (
                       <tr key={u.id}>
-                        <td className="py-3">{u.name}</td>
+                        <td className="py-3">
+                          {u.firstName} {u.lastName}
+                        </td>
                         <td className="py-3">{u.email}</td>
                         <td className="py-3">{u.role}</td>
-                        <td className="py-3 text-green-600">Active</td>
+                        <td className="py-3">
+                          <span
+                            className={`${u.status === "Suspended"
+                                ? "text-red-600"
+                                : u.status === "Pending"
+                                  ? "text-yellow-600"
+                                  : "text-green-600"
+                              }`}
+                          >
+                            {u.status || "Active"}
+                          </span>
+                        </td>
                         <td className="py-3 text-right space-x-4">
-                          <button onClick={() => setEditUser(u)} className="text-blue-600">
+                          <button
+                            onClick={() =>
+                              setEditUser({
+                                ...u,
+                              })
+                            }
+                          >
                             Edit
                           </button>
                           <button className="text-red-600">Remove</button>
-                        </td>
-                      </tr>
-                    ))}
-
-                    {/* Pending Invites */}
-                    {invites.map((i) => (
-                      <tr key={i.id} className="bg-gray-50">
-                        <td className="py-3 italic">Pending</td>
-                        <td className="py-3">{i.email}</td>
-                        <td className="py-3">{i.role}</td>
-                        <td className="py-3 text-yellow-600">Invited</td>
-                        <td className="py-3 text-right space-x-4">
-                          <button className="text-blue-600">Resend</button>
-                          <button className="text-red-600">Cancel</button>
                         </td>
                       </tr>
                     ))}
@@ -510,6 +544,37 @@ const handleLogout = () => {
           </div>
         </div>
       </div>
+      {showLogoutModal && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-sm">
+
+            <h2 className="text-xl font-semibold text-center">
+              Logout
+            </h2>
+
+            <p className="text-gray-500 text-center mt-2">
+              Are you sure you want to logout?
+            </p>
+
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                className="flex-1 py-2 border rounded-xl"
+              >
+                No
+              </button>
+
+              <button
+                onClick={handleLogout}
+                className="flex-1 py-2 bg-red-600 text-white rounded-xl"
+              >
+                Yes
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   )
 }

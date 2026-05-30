@@ -12,6 +12,7 @@ import Billing from "../pages/Billing"
 import Alerts from "../pages/Alerts"
 import VmDetail from "../pages/VmDetail"
 import Settings from "../pages/Settings"
+import AccessManagement from "../pages/AccessManagement"
 
 import ProtectedRoute from "./ProtectedRoute"
 
@@ -81,6 +82,15 @@ export default function AppRoutes() {
         />
 
         <Route
+          path="/accessmanagement"
+          element={
+            <ProtectedRoute>
+              <AccessManagement />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/alerts"
           element={
             <ProtectedRoute>
@@ -112,3 +122,63 @@ export default function AppRoutes() {
     </BrowserRouter>
   )
 }
+
+
+// import { BrowserRouter, Routes, Route } from "react-router-dom"
+
+// import Landing from "../pages/Landing"
+// import Login from "../pages/Login"
+// import Register from "../pages/Register"
+// import Welcome from "../pages/Welcome"
+// import ConnectCloud from "../pages/ConnectCloud"
+// import Dashboard from "../pages/Dashboard"
+// import Vms from "../pages/Vms"
+// import Clouds from "../pages/Clouds"
+// import Billing from "../pages/Billing"
+// import Alerts from "../pages/Alerts"
+// import VmDetail from "../pages/VmDetail"
+// import Settings from "../pages/Settings"
+// import AccessManagement from "../pages/AccessManagement"
+
+// export default function AppRoutes() {
+//   return (
+//     <BrowserRouter>
+//       <Routes>
+
+//         {/* Public routes */}
+//         <Route path="/" element={<Landing />} />
+//         <Route path="/login" element={<Login />} />
+//         <Route path="/register" element={<Register />} />
+
+//         {/* All pages without login */}
+
+//         <Route path="/welcome" element={<Welcome />} />
+
+//         <Route path="/dashboard" element={<Dashboard />} />
+
+//         <Route path="/clouds" element={<Clouds />} />
+
+//         <Route path="/vms" element={<Vms />} />
+
+//         <Route path="/vm/:id" element={<VmDetail />} />
+
+//         <Route path="/billing" element={<Billing />} />
+
+//         <Route
+//           path="/accessmanagement"
+//           element={<AccessManagement />}
+//         />
+
+//         <Route path="/alerts" element={<Alerts />} />
+
+//         <Route path="/settings" element={<Settings />} />
+
+//         <Route
+//           path="/connect/:provider"
+//           element={<ConnectCloud />}
+//         />
+
+//       </Routes>
+//     </BrowserRouter>
+//   )
+// }

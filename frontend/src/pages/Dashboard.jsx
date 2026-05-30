@@ -7,6 +7,8 @@ import gcp from "../assets/icons/gcp.png"
 
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts"
 import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
+
 
 export default function Dashboard() {
   const [open, setOpen] = useState(false)
@@ -16,13 +18,18 @@ export default function Dashboard() {
   const menuRef = useRef()
   const [profileOpen, setProfileOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
   const user = JSON.parse(localStorage.getItem("user"))
 
   const handleLogout = () => {
     localStorage.removeItem("token")
     localStorage.removeItem("user")
-    navigate("/login")
+
+    toast.success("Logged out successfully")
+
+    setTimeout(() => {
+      navigate("/login")
+    }, 1000)
   }
 
   useEffect(() => {
@@ -230,7 +237,7 @@ export default function Dashboard() {
                         Settings
                       </div>
                       <div
-                        onClick={handleLogout}
+                        onClick={() => setShowLogoutModal(true)}
                         className="px-4 py-2 hover:bg-red-50 text-red-600 cursor-pointer"
                       >
                         Logout
@@ -391,6 +398,37 @@ export default function Dashboard() {
 
         </div>
       </div>
+      {showLogoutModal && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-sm">
+
+            <h2 className="text-xl font-semibold text-center">
+              Logout
+            </h2>
+
+            <p className="text-gray-500 text-center mt-2">
+              Are you sure you want to logout?
+            </p>
+
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                className="flex-1 py-2 border rounded-xl"
+              >
+                No
+              </button>
+
+              <button
+                onClick={handleLogout}
+                className="flex-1 py-2 bg-red-600 text-white rounded-xl"
+              >
+                Yes
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   )
 }

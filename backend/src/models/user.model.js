@@ -5,7 +5,16 @@ const userSchema = new mongoose.Schema({
   lastName: String,
   email: { type: String, unique: true },
   password: String,
-  role: { type: String, default: "Admin" },
+  role: {
+    type: String,
+    enum: ["Admin", "Developer", "Viewer"],
+    default: "Viewer",
+  },
+  status: {
+    type: String,
+    enum: ["Active", "Pending", "Suspended"],
+    default: "Active",
+  },
 }, { timestamps: true })
 
 
