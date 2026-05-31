@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import eyeIcon from "../assets/icons/eye.svg"
 import API_BASE_URL from "../config/api"
+import { toast } from "react-toastify"
 
 export default function Register() {
   const navigate = useNavigate()
@@ -41,35 +42,36 @@ export default function Register() {
     try {
       setLoading(true)
 
-const res = await fetch(`${API_BASE_URL}/auth/register`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    firstName: form.firstName,
-    lastName: form.lastName,
-    email: form.email,
-    password: form.password,
-  }),
-})
+      const res = await fetch(`${API_BASE_URL}/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: form.firstName,
+          lastName: form.lastName,
+          email: form.email,
+          password: form.password,
+        }),
+      })
 
 
       const data = await res.json()
 
       if (!res.ok) {
         setLoading(false)
-        return setError(data.message || "Registration failed")
+        toast.error(data.message || "Registration failed")
+        return
       }
 
       localStorage.setItem("token", data.token)
       localStorage.setItem("user", JSON.stringify(data.user))
 
-      setSuccess("Account created successfully 🎉 Redirecting...")
+      toast.success("Account created successfully")
       setTimeout(() => navigate("/welcome"), 1500)
-    }catch (err) {
-  console.error(err)
-  setError("Server not reachable")
-}
- finally {
+    } catch (err) {
+      console.error(err)
+      toast.error("Server not reachable")
+    }
+    finally {
       setLoading(false)
     }
   }
@@ -108,59 +110,59 @@ const res = await fetch(`${API_BASE_URL}/auth/register`, {
           </div>
 
           {/* Password */}
-<div className="mb-4 relative">
-  <label className="text-sm text-gray-600">Password</label>
+          <div className="mb-4 relative">
+            <label className="text-sm text-gray-600">Password</label>
 
-  <input
-    name="password"
-    type={showPassword ? "text" : "password"}
-    value={form.password}
-    onChange={handleChange}
-    className={inputClass}
-  />
+            <input
+              name="password"
+              type={showPassword ? "text" : "password"}
+              value={form.password}
+              onChange={handleChange}
+              className={inputClass}
+            />
 
-  <div
-    onClick={() => setShowPassword(!showPassword)}
-    className="absolute right-3 top-9 w-5 h-5 cursor-pointer"
-  >
-    <img src={eyeIcon} alt="" className="w-5 h-5 opacity-70" />
+            <div
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-9 w-5 h-5 cursor-pointer"
+            >
+              <img src={eyeIcon} alt="" className="w-5 h-5 opacity-70" />
 
-    {/* Slash when hidden */}
-    {!showPassword && (
-      <span className="absolute inset-0">
-        <span className="absolute w-[140%] h-[2px] bg-gray-500 rotate-45 top-1/2 left-[-20%]" />
-      </span>
-    )}
-  </div>
-</div>
+              {/* Slash when hidden */}
+              {!showPassword && (
+                <span className="absolute inset-0">
+                  <span className="absolute w-[140%] h-[2px] bg-gray-500 rotate-45 top-1/2 left-[-20%]" />
+                </span>
+              )}
+            </div>
+          </div>
 
 
           {/* Confirm Password */}
-<div className="mb-4 relative">
-  <label className="text-sm text-gray-600">Confirm password</label>
+          <div className="mb-4 relative">
+            <label className="text-sm text-gray-600">Confirm password</label>
 
-  <input
-    name="confirmPassword"
-    type={showConfirm ? "text" : "password"}
-    value={form.confirmPassword}
-    onChange={handleChange}
-    className={inputClass}
-  />
+            <input
+              name="confirmPassword"
+              type={showConfirm ? "text" : "password"}
+              value={form.confirmPassword}
+              onChange={handleChange}
+              className={inputClass}
+            />
 
-  <div
-    onClick={() => setShowConfirm(!showConfirm)}
-    className="absolute right-3 top-9 w-5 h-5 cursor-pointer"
-  >
-    <img src={eyeIcon} alt="" className="w-5 h-5 opacity-70" />
+            <div
+              onClick={() => setShowConfirm(!showConfirm)}
+              className="absolute right-3 top-9 w-5 h-5 cursor-pointer"
+            >
+              <img src={eyeIcon} alt="" className="w-5 h-5 opacity-70" />
 
-    {/* Slash when hidden */}
-    {!showConfirm && (
-      <span className="absolute inset-0">
-        <span className="absolute w-[140%] h-[2px] bg-gray-500 rotate-45 top-1/2 left-[-20%]" />
-      </span>
-    )}
-  </div>
-</div>
+              {/* Slash when hidden */}
+              {!showConfirm && (
+                <span className="absolute inset-0">
+                  <span className="absolute w-[140%] h-[2px] bg-gray-500 rotate-45 top-1/2 left-[-20%]" />
+                </span>
+              )}
+            </div>
+          </div>
 
 
           {success && (

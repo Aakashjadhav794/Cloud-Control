@@ -76,7 +76,7 @@ export default function AccessManagement() {
       const token = localStorage.getItem("token")
 
       const res = await fetch(
-        "http://localhost:5000/users",
+        "https://cloud-control-1.onrender.com/users",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -128,7 +128,7 @@ export default function AccessManagement() {
       }
 
       const res = await fetch(
-        "http://localhost:5000/users",
+        "https://cloud-control-1.onrender.com/users",
         {
           method: "POST",
           headers: {
@@ -178,7 +178,7 @@ export default function AccessManagement() {
       console.log("USER ID:", editData.id)
 
       const res = await fetch(
-        `http://localhost:5000/users/${editData.id}`,
+        `https://cloud-control-1.onrender.com/users/${editData.id}`,
         {
           method: "PUT",
           headers: {
@@ -222,7 +222,7 @@ export default function AccessManagement() {
       const token = localStorage.getItem("token")
 
       const res = await fetch(
-        `http://localhost:5000/users/${deleteUserId}`,
+        `https://cloud-control-1.onrender.com/users/${deleteUserId}`,
         {
           method: "DELETE",
           headers: {
@@ -250,16 +250,16 @@ export default function AccessManagement() {
   }
   const user = JSON.parse(localStorage.getItem("user"))
 
-const handleLogout = () => {
-  localStorage.removeItem("token")
-  localStorage.removeItem("user")
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
 
-  toast.success("Logged out successfully")
+    toast.success("Logged out successfully")
 
-  setTimeout(() => {
-    navigate("/login")
-  }, 1000)
-}
+    setTimeout(() => {
+      navigate("/login")
+    }, 1000)
+  }
 
   useEffect(() => {
     const close = (e) => {
@@ -372,12 +372,12 @@ const handleLogout = () => {
                     Settings
                   </div>
 
-<div
-  onClick={() => setShowLogoutModal(true)}
-  className="px-4 py-2 hover:bg-red-50 text-red-600 cursor-pointer"
->
-  Logout
-</div>
+                  <div
+                    onClick={() => setShowLogoutModal(true)}
+                    className="px-4 py-2 hover:bg-red-50 text-red-600 cursor-pointer"
+                  >
+                    Logout
+                  </div>
 
                 </div>
               )}
@@ -1577,36 +1577,36 @@ const handleLogout = () => {
         </div>
       )}
       {showLogoutModal && (
-  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-    <div className="bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-sm">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-sm">
 
-      <h2 className="text-xl font-semibold text-center">
-        Logout
-      </h2>
+            <h2 className="text-xl font-semibold text-center">
+              Logout
+            </h2>
 
-      <p className="text-gray-500 text-center mt-2">
-        Are you sure you want to logout?
-      </p>
+            <p className="text-gray-500 text-center mt-2">
+              Are you sure you want to logout?
+            </p>
 
-      <div className="flex gap-3 mt-6">
-        <button
-          onClick={() => setShowLogoutModal(false)}
-          className="flex-1 py-2 border rounded-xl"
-        >
-          No
-        </button>
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                className="flex-1 py-2 border rounded-xl"
+              >
+                No
+              </button>
 
-        <button
-          onClick={handleLogout}
-          className="flex-1 py-2 bg-red-600 text-white rounded-xl"
-        >
-          Yes
-        </button>
-      </div>
+              <button
+                onClick={handleLogout}
+                className="flex-1 py-2 bg-red-600 text-white rounded-xl"
+              >
+                Yes
+              </button>
+            </div>
 
-    </div>
-  </div>
-)}
+          </div>
+        </div>
+      )}
     </div>
 
   )
